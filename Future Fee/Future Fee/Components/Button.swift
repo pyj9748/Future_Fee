@@ -1,15 +1,16 @@
 //
-//  Label.swift
+//  Button.swift
 //  Future Fee
 //
 //  Created by young june Park on 2023/01/08.
 //
 
-import UIKit.UILabel
+import UIKit.UIButton
 
-final class Label: UILabel {
-    init(text: String) {
+final class Button: UIButton {
+    init(backgroundColor: UIColor, text: String) {
         super.init(frame: .zero)
+        self.backgroundColor = backgroundColor
         configure(text)
     }
 
@@ -18,7 +19,6 @@ final class Label: UILabel {
     }
 
     private func configure(_ text: String) {
-        self.text = text
-        textColor = .white
+        setTitle(text, for: .normal)
     }
 }
