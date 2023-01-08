@@ -22,6 +22,7 @@
 		28BE4DCA296AD14A00ADB583 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DC9296AD14A00ADB583 /* TextField.swift */; };
 		28BE4DCC296AD33700ADB583 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DCB296AD33700ADB583 /* Label.swift */; };
 		28BE4DCE296AD58B00ADB583 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DCD296AD58B00ADB583 /* Button.swift */; };
+		28BE4DD1296AD85500ADB583 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD0296AD85500ADB583 /* UIColor+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		28BE4DC9296AD14A00ADB583 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		28BE4DCB296AD33700ADB583 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		28BE4DCD296AD58B00ADB583 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		28BE4DD0296AD85500ADB583 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				28BE4DC6296ACC9500ADB583 /* MainView.swift */,
 				28A68174281E6349009BF58D /* ViewController.swift */,
 				2845A5D1282AC4A200C13348 /* CryptoExchange.swift */,
+				28BE4DCF296AD83900ADB583 /* Resource */,
 				28BE4DC8296AD10200ADB583 /* Components */,
 				28A68179281E634A009BF58D /* Assets.xcassets */,
 				28A6817B281E634A009BF58D /* LaunchScreen.storyboard */,
@@ -95,6 +98,14 @@
 				28BE4DCD296AD58B00ADB583 /* Button.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		28BE4DCF296AD83900ADB583 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				28BE4DD0296AD85500ADB583 /* UIColor+.swift */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +199,7 @@
 				28BE4DC7296ACC9500ADB583 /* MainView.swift in Sources */,
 				28BE4DCC296AD33700ADB583 /* Label.swift in Sources */,
 				28A68173281E6349009BF58D /* SceneDelegate.swift in Sources */,
+				28BE4DD1296AD85500ADB583 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
