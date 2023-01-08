@@ -10,6 +10,7 @@ import UIKit.UILabel
 final class Label: UILabel {
     init(text: String) {
         super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
         configure(text)
     }
 

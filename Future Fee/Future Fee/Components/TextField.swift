@@ -10,6 +10,7 @@ import UIKit.UITextField
 final class TextField: UITextField {
     init(placeholder: String) {
         super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
         configure(placeholder)
     }
 

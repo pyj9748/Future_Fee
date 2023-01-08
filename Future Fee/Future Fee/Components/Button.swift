@@ -13,6 +13,7 @@ final class Button: UIButton {
     init(backgroundColor: UIColor, text: String) {
         bgColor = backgroundColor
         super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .black
         configure(backgroundColor: backgroundColor, text: text)
     }
