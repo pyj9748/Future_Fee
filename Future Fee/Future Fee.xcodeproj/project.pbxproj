@@ -18,6 +18,7 @@
 		28A6817D281E634A009BF58D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28A6817B281E634A009BF58D /* LaunchScreen.storyboard */; };
 		28A68186281E6924009BF58D /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 28A68185281E6924009BF58D /* RxCocoa */; };
 		28A68188281E6924009BF58D /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 28A68187281E6924009BF58D /* RxSwift */; };
+		28BE4DC7296ACC9500ADB583 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DC6296ACC9500ADB583 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		28A68179281E634A009BF58D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28A6817C281E634A009BF58D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28A6817E281E634A009BF58D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28BE4DC6296ACC9500ADB583 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 			children = (
 				28A68170281E6349009BF58D /* AppDelegate.swift */,
 				28A68172281E6349009BF58D /* SceneDelegate.swift */,
+				28BE4DC6296ACC9500ADB583 /* MainView.swift */,
 				28A68174281E6349009BF58D /* ViewController.swift */,
 				2845A5D1282AC4A200C13348 /* CryptoExchange.swift */,
 				28A68179281E634A009BF58D /* Assets.xcassets */,
@@ -163,6 +166,7 @@
 				28A68175281E6349009BF58D /* ViewController.swift in Sources */,
 				2845A5D2282AC4A200C13348 /* CryptoExchange.swift in Sources */,
 				28A68171281E6349009BF58D /* AppDelegate.swift in Sources */,
+				28BE4DC7296ACC9500ADB583 /* MainView.swift in Sources */,
 				28A68173281E6349009BF58D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
