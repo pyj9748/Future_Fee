@@ -14,7 +14,7 @@ final class Button: UIButton {
         bgColor = backgroundColor
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = .black
+
         configure(backgroundColor: backgroundColor, text: text)
     }
 
@@ -24,9 +24,10 @@ final class Button: UIButton {
 
     private func configure(backgroundColor: UIColor, text: String) {
         setTitle(text, for: .normal)
-        setTitleColor(.black, for: .normal)
+        setTitleColor(.white, for: .normal)
         layer.borderWidth = 2
         layer.borderColor = backgroundColor.cgColor
+        layer.cornerRadius = 8
         clipsToBounds = true
     }
     

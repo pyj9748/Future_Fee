@@ -25,6 +25,7 @@
 		28BE4DD1296AD85500ADB583 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD0296AD85500ADB583 /* UIColor+.swift */; };
 		28BE4DD3296ADD2E00ADB583 /* LabelTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD2296ADD2E00ADB583 /* LabelTextFieldView.swift */; };
 		28BE4DD5296ADD5B00ADB583 /* LabelLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD4296ADD5B00ADB583 /* LabelLabelView.swift */; };
+		28BE4DD8296BC71600ADB583 /* Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD7296BC71600ADB583 /* Trade.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		28BE4DD0296AD85500ADB583 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		28BE4DD2296ADD2E00ADB583 /* LabelTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTextFieldView.swift; sourceTree = "<group>"; };
 		28BE4DD4296ADD5B00ADB583 /* LabelLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelLabelView.swift; sourceTree = "<group>"; };
+		28BE4DD7296BC71600ADB583 /* Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				28BE4DC6296ACC9500ADB583 /* MainView.swift */,
 				28A68174281E6349009BF58D /* ViewController.swift */,
 				2845A5D1282AC4A200C13348 /* CryptoExchange.swift */,
+				28BE4DD6296BC6F400ADB583 /* Model */,
 				28BE4DCF296AD83900ADB583 /* Resource */,
 				28BE4DC8296AD10200ADB583 /* Components */,
 				28A68179281E634A009BF58D /* Assets.xcassets */,
@@ -112,6 +115,14 @@
 				28BE4DD0296AD85500ADB583 /* UIColor+.swift */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		28BE4DD6296BC6F400ADB583 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				28BE4DD7296BC71600ADB583 /* Trade.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +210,7 @@
 			files = (
 				28A68175281E6349009BF58D /* ViewController.swift in Sources */,
 				2845A5D2282AC4A200C13348 /* CryptoExchange.swift in Sources */,
+				28BE4DD8296BC71600ADB583 /* Trade.swift in Sources */,
 				28A68171281E6349009BF58D /* AppDelegate.swift in Sources */,
 				28BE4DCE296AD58B00ADB583 /* Button.swift in Sources */,
 				28BE4DCA296AD14A00ADB583 /* TextField.swift in Sources */,

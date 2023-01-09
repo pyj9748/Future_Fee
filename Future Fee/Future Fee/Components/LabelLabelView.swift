@@ -38,10 +38,10 @@ final class LabelLabelView: UIView {
             leftLabel.topAnchor.constraint(equalTo: self.topAnchor),
             leftLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             leftLabel.leftAnchor.constraint(equalTo: self.leftAnchor),
-            leftLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.35),
+            leftLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
             rightLabel.topAnchor.constraint(equalTo: self.topAnchor),
             rightLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            rightLabel.leftAnchor.constraint(equalTo: leftLabel.rightAnchor),
+            //rightLabel.leftAnchor.constraint(equalTo: leftLabel.rightAnchor),
             rightLabel.rightAnchor.constraint(equalTo: self.rightAnchor)
         ])
     }

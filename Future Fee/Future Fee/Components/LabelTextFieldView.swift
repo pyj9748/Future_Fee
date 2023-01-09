@@ -38,7 +38,7 @@ final class LabelTextFieldView: UIView {
             leftLabel.topAnchor.constraint(equalTo: self.topAnchor),
             leftLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             leftLabel.leftAnchor.constraint(equalTo: self.leftAnchor),
-            leftLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.35),
+            leftLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
             rightTextField.topAnchor.constraint(equalTo: self.topAnchor),
             rightTextField.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             rightTextField.leftAnchor.constraint(equalTo: leftLabel.rightAnchor),

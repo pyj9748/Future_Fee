@@ -19,7 +19,11 @@ final class TextField: UITextField {
     }
 
     private func configure(_ placeholder: String) {
-        self.placeholder = placeholder
+        attributedPlaceholder = NSAttributedString(
+            string: placeholder,
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
+        )
+        text = ""
         textColor = .white
         layer.borderWidth = 2
         layer.borderColor = UIColor.white.cgColor
