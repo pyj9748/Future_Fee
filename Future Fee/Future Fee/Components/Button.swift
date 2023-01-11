@@ -9,12 +9,11 @@ import UIKit.UIButton
 
 final class Button: UIButton {
     private var bgColor: UIColor
-    
+
     init(backgroundColor: UIColor, text: String) {
         bgColor = backgroundColor
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-
         configure(backgroundColor: backgroundColor, text: text)
     }
 
@@ -30,13 +29,12 @@ final class Button: UIButton {
         layer.cornerRadius = 8
         clipsToBounds = true
     }
-    
+
     func selected() {
         backgroundColor = bgColor
     }
-    
+
     func deselected() {
         backgroundColor = .black
     }
-    
 }
