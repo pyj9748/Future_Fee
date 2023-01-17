@@ -48,7 +48,7 @@ final class MainView: UIView {
     let shortButton = Button(backgroundColor: .themeRed, text: "SHORT")
 
     let orderMethodView = LabelTextFieldView(
-        left: Label(text: "현재 환율(USDT)"),
+        left: Label(text: "주문 방식"),
         right: TextField(placeholder: "주문 방식을 선택하세요")
     )
     let leverageView = LabelTextFieldView(

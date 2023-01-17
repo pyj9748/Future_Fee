@@ -70,21 +70,30 @@ final class ViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         bind()
         bindViewModel()
     }
 
     private func bind() {
-        mainView.infoBarButtonItem.rx.tap.bind { [weak self] _ in
-            self?.viewModel.input.tapInfo.accept(())
-        }.disposed(by: disposeBag)
+        mainView.infoBarButtonItem.rx.tap
+            .bind { [weak self] _ in
+                self?.viewModel.input.tapInfo.accept(())
+            }.disposed(by: disposeBag)
+        mainView.resetBarButtonItem.rx.tap
+            .bind { [weak self] _ in
+                self?.viewModel.input.tapReset.accept(())
+            }.disposed(by: disposeBag)
     }
 
     private func bindViewModel() {
         viewModel.input.tapInfo
             .bind { [weak self] _ in
                 self?.showInfo()
+            }
+            .disposed(by: disposeBag)
+        viewModel.input.tapReset
+            .bind { [weak self] _ in
+                self?.reset()
             }
             .disposed(by: disposeBag)
     }
@@ -105,16 +114,31 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func showInfo() {
-        let infoAlert = UIAlertController(title: "Info", message: """
-                                          이 어플은 선물거래 초보자를 위한 이익과 수수료 계산을 지원합니다.
-                                          펀딩비를 제외하므로 본인의 수수료 정책과 맞는지 잘 확인하시고
-                                          참고만 해주시기 바랍니다. 감사합니다.
-                                          """
-                                          , preferredStyle: UIAlertController.Style.alert)
+        let infoAlert = UIAlertController(
+            title: "Info",
+            message: """
+            이 어플은 선물거래 초보자를 위한 이익과 수수료 계산을 지원합니다.
+            펀딩비를 제외하므로 본인의 수수료 정책과 맞는지 잘 확인하시고
+            참고만 해주시기 바랍니다. 감사합니다.
+            """,
+            preferredStyle: UIAlertController.Style.alert
+        )
         let okAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
         infoAlert.addAction(okAction)
 
         present(infoAlert, animated: true, completion: nil)
+    }
+    
+    private func reset() {
+        mainView.leverageView.rightTextField.text = ""
+        mainView.openPriceView.rightTextField.text = ""
+        mainView.closePriceView.rightTextField.text = ""
+        mainView.volumeView.rightTextField.text = ""
+        mainView.depositView.rightLabel.text = "0"
+        mainView.feeView.rightLabel.text = "0"
+        mainView.usdtProfitView.rightLabel.text = "0"
+        mainView.wonProfitView.rightLabel.text = "0"
+        mainView.roeView.rightLabel.text = "0"
     }
 }
 
@@ -144,12 +168,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
 //        trade = Trade.Long
 // }
 
-//    func setTF() {
-//        leverageTF.text = ""
-//        openPriceTF.text = ""
-//        closePriceTF.text = ""
-//        volumeTF.text = ""
-//    }
+
 //
 //    func setPlaceholder() {
 //        leverageTF.attributedPlaceholder = NSAttributedString(string: "EX) 10", attributes: [.foregroundColor: UIColor.darkGray])
@@ -188,14 +207,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
 //
 
 //
-//    @IBAction func tapResteBT(_ sender: UIButton) {
-//        setTF()
-//        lblMargin.text = "0"
-//        lblUSDTProfit.text = "0"
-//        lblWonProfit.text = "0"
-//        lblFee.text = "0"
-//        lblROE.text = "0"
-//    }
+
 //
 //    @IBAction func tapCalculateBT(_ sender: UIButton) {
 //        var l: Double = 0
