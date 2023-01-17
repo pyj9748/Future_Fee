@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         let navigationController = UINavigationController()
+        let viewModel = ViewModel()
         let viewController = ViewController()
         navigationController.pushViewController(viewController, animated: false)
 
