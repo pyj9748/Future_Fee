@@ -28,6 +28,8 @@
 		28BE4DD8296BC71600ADB583 /* Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD7296BC71600ADB583 /* Trade.swift */; };
 		28BE4DDA296EC46800ADB583 /* ToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD9296EC46800ADB583 /* ToolBar.swift */; };
 		28BE4DDC296ECB6000ADB583 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DDB296ECB6000ADB583 /* ViewModel.swift */; };
+		28F981CE29767A4F00BFEC90 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F981CD29767A4F00BFEC90 /* Method.swift */; };
+		28F981D029767A6400BFEC90 /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F981CF29767A6400BFEC90 /* Exchange.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 		28BE4DD7296BC71600ADB583 /* Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade.swift; sourceTree = "<group>"; };
 		28BE4DD9296EC46800ADB583 /* ToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBar.swift; sourceTree = "<group>"; };
 		28BE4DDB296ECB6000ADB583 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		28F981CD29767A4F00BFEC90 /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = "<group>"; };
+		28F981CF29767A6400BFEC90 /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				28A6817E281E634A009BF58D /* Info.plist */,
-				2845A5D1282AC4A200C13348 /* CryptoExchange.swift */,
 				28BE4DC6296ACC9500ADB583 /* MainView.swift */,
 				28A68174281E6349009BF58D /* ViewController.swift */,
 				28BE4DDB296ECB6000ADB583 /* ViewModel.swift */,
@@ -126,7 +129,10 @@
 		28BE4DD6296BC6F400ADB583 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2845A5D1282AC4A200C13348 /* CryptoExchange.swift */,
 				28BE4DD7296BC71600ADB583 /* Trade.swift */,
+				28F981CD29767A4F00BFEC90 /* Method.swift */,
+				28F981CF29767A6400BFEC90 /* Exchange.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -235,12 +241,14 @@
 				28BE4DD8296BC71600ADB583 /* Trade.swift in Sources */,
 				28A68171281E6349009BF58D /* AppDelegate.swift in Sources */,
 				28BE4DCE296AD58B00ADB583 /* Button.swift in Sources */,
+				28F981CE29767A4F00BFEC90 /* Method.swift in Sources */,
 				28BE4DCA296AD14A00ADB583 /* TextField.swift in Sources */,
 				28BE4DDC296ECB6000ADB583 /* ViewModel.swift in Sources */,
 				28BE4DD3296ADD2E00ADB583 /* LabelTextFieldView.swift in Sources */,
 				28BE4DD5296ADD5B00ADB583 /* LabelLabelView.swift in Sources */,
 				28BE4DC7296ACC9500ADB583 /* MainView.swift in Sources */,
 				28BE4DCC296AD33700ADB583 /* Label.swift in Sources */,
+				28F981D029767A6400BFEC90 /* Exchange.swift in Sources */,
 				28BE4DDA296EC46800ADB583 /* ToolBar.swift in Sources */,
 				28A68173281E6349009BF58D /* SceneDelegate.swift in Sources */,
 				28BE4DD1296AD85500ADB583 /* UIColor+.swift in Sources */,

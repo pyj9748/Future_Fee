@@ -13,29 +13,8 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     private let mainView = MainView()
     var viewModel: ViewModel = ViewModel()
     private let disposeBag = DisposeBag()
-    // 거래소
-    let exchangePicker = UIPickerView()
-
-    // 거래소 배열
-    let cryptoExchange: [CryptoExchange] = [
-        CryptoExchange(name: "Binance Regular User", makerFee: 0.02, takerFee: 0.04),
-        CryptoExchange(name: "Binance VIP 1", makerFee: 0.016, takerFee: 0.04),
-        CryptoExchange(name: "Binance VIP 2", makerFee: 0.014, takerFee: 0.035),
-        CryptoExchange(name: "Binance VIP 3", makerFee: 0.012, takerFee: 0.032),
-        CryptoExchange(name: "Bitget", makerFee: 0.02, takerFee: 0.04),
-        CryptoExchange(name: "Bybit Non-VIP", makerFee: 0.01, takerFee: 0.06),
-        CryptoExchange(name: "Bybit VIP 1", makerFee: 0.006, takerFee: 0.05),
-        CryptoExchange(name: "Bybit VIP 2", makerFee: 0.004, takerFee: 0.045),
-        CryptoExchange(name: "Bybit VIP 3", makerFee: 0.002, takerFee: 0.0425),
-    ]
-
-    // Long or Short
 
     var trade: Trade = Trade.Long
-
-    // 지정가 / 시장가
-    let methodPicker = UIPickerView()
-    let method: [String] = ["지정가", "시장가"]
 
     // 계산 요소
     // BTCUSTD
@@ -66,6 +45,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     override func loadView() {
         view = mainView
         configureNavigationBar()
+        configureTextField()
     }
 
     override func viewDidLoad() {
@@ -79,9 +59,58 @@ final class ViewController: UIViewController, UITextFieldDelegate {
             .bind { [weak self] _ in
                 self?.viewModel.input.tapInfo.accept(())
             }.disposed(by: disposeBag)
+
         mainView.resetBarButtonItem.rx.tap
             .bind { [weak self] _ in
                 self?.viewModel.input.tapReset.accept(())
+            }.disposed(by: disposeBag)
+
+        mainView.exchangePicker.rx.itemSelected
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] row, _ in
+                guard let cryptoExchange = self?.viewModel.cryptoExchange[row].cryptoExchange else {
+                    return
+                }
+                self?.mainView.exchangeView.rightTextField.text = cryptoExchange.name
+                self?.mainView.makerLabel.text = cryptoExchange.makerFeeString
+                self?.mainView.takerLabel.text = cryptoExchange.takerFeeString
+                self?.viewModel.output.exchange.onNext(cryptoExchange)
+            }.disposed(by: disposeBag)
+
+        mainView.exchangeDoneButton.rx.tap
+            .bind { [weak self] _ in
+                self?.mainView.exchangeView.rightTextField.resignFirstResponder()
+            }.disposed(by: disposeBag)
+
+        mainView.methodPicker.rx.itemSelected
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] row, _ in
+                guard let method = self?.viewModel.method[row] else {
+                    return
+                }
+                self?.mainView.orderMethodView.rightTextField.text = method.rawValue
+                self?.viewModel.output.orderMethod.onNext(method)
+            }.disposed(by: disposeBag)
+
+        mainView.methodDoneButton.rx.tap
+            .bind { [weak self] _ in
+                self?.mainView.orderMethodView.rightTextField.resignFirstResponder()
+            }.disposed(by: disposeBag)
+
+        mainView.longButton.rx.tap
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.mainView.longButton.selected()
+                self?.mainView.shortButton.deselected()
+                self?.viewModel.output.trade.onNext(.Long)
+            }.disposed(by: disposeBag)
+
+        mainView.shortButton.rx.tap
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.mainView.longButton.deselected()
+                self?.mainView.shortButton.selected()
+                self?.viewModel.output.trade.onNext(.Short)
             }.disposed(by: disposeBag)
     }
 
@@ -102,6 +131,11 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.topItem?.title = "선물거래 연습 계산기"
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         addBarButtonItems()
+    }
+
+    private func configureTextField() {
+        configurePickerView()
+        mainView.exchangeView.rightTextField.inputView = mainView.exchangePicker
     }
 
     private func addBarButtonItems() {
@@ -128,7 +162,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
 
         present(infoAlert, animated: true, completion: nil)
     }
-    
+
     private func reset() {
         mainView.leverageView.rightTextField.text = ""
         mainView.openPriceView.rightTextField.text = ""
@@ -168,14 +202,6 @@ final class ViewController: UIViewController, UITextFieldDelegate {
 //        trade = Trade.Long
 // }
 
-
-//
-//    func setPlaceholder() {
-//        leverageTF.attributedPlaceholder = NSAttributedString(string: "EX) 10", attributes: [.foregroundColor: UIColor.darkGray])
-//        openPriceTF.attributedPlaceholder = NSAttributedString(string: "EX) \(_BTCUSDT)", attributes: [.foregroundColor: UIColor.darkGray])
-//        closePriceTF.attributedPlaceholder = NSAttributedString(string: "EX) \(_BTCUSDT + 1000.0)", attributes: [.foregroundColor: UIColor.darkGray])
-//        volumeTF.attributedPlaceholder = NSAttributedString(string: "EX) 1.0", attributes: [.foregroundColor: UIColor.darkGray])
-//    }
 //
 //    func updateRealPrice() {
 //        _BTCUSDT = crawlBTCUSDT(completion: {})
@@ -322,76 +348,29 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         view.endEditing(true)
     }
 
-    func configPickerView() {
-        exchangePicker.delegate = self
-        exchangePicker.dataSource = self
-        mainView.exchangeView.rightTextField.inputView = exchangePicker
+    func configurePickerView() {
+        mainView.exchangePicker.delegate = self
+        mainView.exchangePicker.dataSource = self
+        mainView.exchangeView.rightTextField.inputView = mainView.exchangePicker
         configExchangeToolbar()
-
-        methodPicker.delegate = self
-        methodPicker.dataSource = self
-        if let orderMethodView = mainView.inputStackView.subviews[0] as? LabelTextFieldView {
-            orderMethodView.rightTextField.inputView = methodPicker
-        }
+        mainView.methodPicker.backgroundColor = .systemGray
+        mainView.methodPicker.delegate = self
+        mainView.methodPicker.dataSource = self
+        mainView.orderMethodView.rightTextField.inputView = mainView.methodPicker
         configMethodToolbar()
     }
 
     func configExchangeToolbar() {
-        let toolBar = UIToolbar()
-
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor.white
-        toolBar.sizeToFit()
-
-//        let doneBT = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(donePicker))
-//
-//        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//
-//        toolBar.setItems([cancelBT, flexibleSpace, doneBT], animated: false)
-
-        toolBar.isUserInteractionEnabled = true
-
-        mainView.exchangeView.rightTextField.inputAccessoryView = toolBar
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        mainView.exchangeToolBar.setItems([flexibleSpace, mainView.exchangeDoneButton], animated: false)
+        mainView.exchangeView.rightTextField.inputAccessoryView = mainView.exchangeToolBar
     }
 
     func configMethodToolbar() {
-//        let toolBar = ToolBar(frame: .zero)
-//        let doneBT2 = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(donePicker2))
-//        let flexibleSpace2 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//        let cancelBT2 = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelPicker2))
-//        toolBar.setItems([cancelBT2, flexibleSpace2, doneBT2], animated: false)
-//        methodTF.inputAccessoryView =
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        mainView.methodToolBar.setItems([flexibleSpace, mainView.methodDoneButton], animated: false)
+        mainView.orderMethodView.rightTextField.inputAccessoryView = mainView.methodToolBar
     }
-
-//    @objc func donePicker() {
-//        let row = exchangePicker.selectedRow(inComponent: 0)
-//        exchangePicker.selectRow(row, inComponent: 0, animated: false)
-//        exchangeTF.text = cryptoExchange[row].name
-//        lblMaker.text = String(cryptoExchange[row].makerFee)
-//        lblTaker.text = String(cryptoExchange[row].takerFee)
-//        exchangeTF.resignFirstResponder()
-//        exchangeTF.textColor = UIColor.white
-//    }
-
-//    @objc func cancelPicker() {
-//        exchangeTF.text = nil
-//        exchangeTF.resignFirstResponder()
-//    }
-
-//    @objc func donePicker2() {
-//        let row = methodPicker.selectedRow(inComponent: 0)
-//        methodPicker.selectRow(row, inComponent: 0, animated: false)
-//        methodTF.text = method[row]
-//
-//        methodTF.resignFirstResponder()
-//        methodTF.textColor = UIColor.white
-//    }
-//
-//    @objc func cancelPicker2() {
-//        methodTF.text = nil
-//        methodTF.resignFirstResponder()
-//    }
 
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -399,38 +378,20 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch pickerView {
-        case exchangePicker:
-            return cryptoExchange.count
-        case methodPicker:
-            return method.count
+        case mainView.exchangePicker:
+            return viewModel.cryptoExchange.count
+        case mainView.methodPicker:
+            return viewModel.method.count
         default:
             return 0
         }
-//        if pickerView == exchangePicker {
-//
-//        } else {
-//
-//        }
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == exchangePicker {
-            return cryptoExchange[row].name
+        if pickerView == mainView.exchangePicker {
+            return viewModel.cryptoExchange[row].cryptoExchange.name
         } else {
-            return method[row]
-        }
-    }
-
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch pickerView {
-        case exchangePicker:
-            mainView.exchangeView.rightTextField.text = cryptoExchange[row].name
-            mainView.makerLabel.text = String(cryptoExchange[row].makerFee)
-            mainView.takerLabel.text = String(cryptoExchange[row].takerFee)
-        case methodPicker:
-            mainView.orderMethodView.rightTextField.text = method[row]
-        default:
-            return
+            return viewModel.method[row].rawValue
         }
     }
 }

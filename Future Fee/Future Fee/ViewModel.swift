@@ -11,22 +11,23 @@ import RxSwift
 
 final class ViewModel {
     var disposeBag = DisposeBag()
+
+    let cryptoExchange = Exchange.allCases
+    let method = Method.allCases
+
     struct Input {
         var tapInfo = PublishRelay<Void>()
         var tapReset = PublishRelay<Void>()
-        var tapLongShort = PublishRelay<Void>()
-        var editExchange = PublishRelay<Void>()
-        var editOrderMethod = PublishRelay<Void>()
-        var editLeverage = PublishRelay<Void>()
-        var editOpenPrice = PublishRelay<Void>()
-        var editClosePrice = PublishRelay<Void>()
-        var editVolume = PublishRelay<Void>()
     }
 
     struct Output {
-        var showInfo = PublishRelay<Void>()
-//        var reset
-//        var
+        var exchange = PublishSubject<CryptoExchange>()
+        var trade = PublishSubject<Trade>()
+        var orderMethod = PublishSubject<Method>()
+        var leverage = PublishSubject<Double>()
+        var openPrice = PublishSubject<Double>()
+        var closePrice = PublishSubject<Double>()
+        var volume = PublishSubject<Double>()
     }
 
     var input = Input()
@@ -38,10 +39,8 @@ final class ViewModel {
     }
 
     private func bindInput() {
-    
     }
 
     private func bindOutput() {
-       
     }
 }

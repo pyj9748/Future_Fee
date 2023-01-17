@@ -12,6 +12,14 @@ struct CryptoExchange {
     var name: String
     var makerFee: Double
     var takerFee: Double
+
+    var makerFeeString: String {
+        return String(makerFee)
+    }
+
+    var takerFeeString: String {
+        return String(takerFee)
+    }
 }
 
 func crawlBTCUSDT(completion: @escaping () -> Void) -> Double {
