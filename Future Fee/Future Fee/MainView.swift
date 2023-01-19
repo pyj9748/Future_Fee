@@ -8,19 +8,15 @@
 import UIKit
 
 final class MainView: UIView {
-    let exchangeDoneButton = UIBarButtonItem(title: "완료", style: .plain, target: nil, action: nil)
     let exchangeToolBar = ToolBar()
     let exchangePicker = {
         let pickerView = UIPickerView()
-        pickerView.backgroundColor = .systemGray
         return pickerView
     }()
 
-    let methodDoneButton = UIBarButtonItem(title: "완료", style: .plain, target: nil, action: nil)
     let methodToolBar = ToolBar()
     let methodPicker = {
         let pickerView = UIPickerView()
-        pickerView.backgroundColor = .systemGray
         return pickerView
     }()
 

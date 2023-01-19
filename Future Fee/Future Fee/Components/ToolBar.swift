@@ -24,5 +24,9 @@ final class ToolBar: UIToolbar {
         tintColor = UIColor.white
         sizeToFit()
         isUserInteractionEnabled = true
+        let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: nil, action: nil)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        setItems([flexibleSpace, doneButton], animated: false)
     }
+    
 }

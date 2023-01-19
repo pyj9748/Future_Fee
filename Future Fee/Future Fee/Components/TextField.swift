@@ -5,9 +5,11 @@
 //  Created by young june Park on 2023/01/08.
 //
 
-import UIKit.UITextField
+import UIKit
 
 final class TextField: UITextField {
+    let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: nil, action: nil)
+
     init(placeholder: String) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
@@ -28,5 +30,11 @@ final class TextField: UITextField {
         layer.borderWidth = 2
         layer.borderColor = UIColor.white.cgColor
         textAlignment = .center
+        keyboardType = .decimalPad
+
+        let toolBar = ToolBar()
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolBar.setItems([flexibleSpace, doneButton], animated: false)
+        inputAccessoryView = toolBar
     }
 }

@@ -45,7 +45,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     override func loadView() {
         view = mainView
         configureNavigationBar()
-        configureTextField()
+        configurePickerView()
     }
 
     override func viewDidLoad() {
@@ -77,11 +77,6 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                 self?.viewModel.output.exchange.onNext(cryptoExchange)
             }.disposed(by: disposeBag)
 
-        mainView.exchangeDoneButton.rx.tap
-            .bind { [weak self] _ in
-                self?.mainView.exchangeView.rightTextField.resignFirstResponder()
-            }.disposed(by: disposeBag)
-
         mainView.methodPicker.rx.itemSelected
             .subscribe(on: MainScheduler.instance)
             .bind { [weak self] row, _ in
@@ -90,11 +85,6 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                 }
                 self?.mainView.orderMethodView.rightTextField.text = method.rawValue
                 self?.viewModel.output.orderMethod.onNext(method)
-            }.disposed(by: disposeBag)
-
-        mainView.methodDoneButton.rx.tap
-            .bind { [weak self] _ in
-                self?.mainView.orderMethodView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
 
         mainView.longButton.rx.tap
@@ -111,6 +101,66 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                 self?.mainView.longButton.deselected()
                 self?.mainView.shortButton.selected()
                 self?.viewModel.output.trade.onNext(.Short)
+            }.disposed(by: disposeBag)
+        mainView.leverageView.rightTextField.rx.text
+            .bind { [weak self] text in
+                if let leverage = Double(text ?? "") {
+                    self?.viewModel.output.leverage.onNext(leverage)
+                }
+            }.disposed(by: disposeBag)
+        mainView.openPriceView.rightTextField.rx.text
+            .bind { [weak self] text in
+                if let openPrice = Double(text ?? "") {
+                    self?.viewModel.output.openPrice.onNext(openPrice)
+                }
+            }.disposed(by: disposeBag)
+        mainView.closePriceView.rightTextField.rx.text
+            .bind { [weak self] text in
+                if let closePrice = Double(text ?? "") {
+                    self?.viewModel.output.closePrice.onNext(closePrice)
+                }
+            }.disposed(by: disposeBag)
+        mainView.volumeView.rightTextField.rx.text
+            .bind { [weak self] text in
+                if let volume = Double(text ?? "") {
+                    self?.viewModel.output.volume.onNext(volume)
+                }
+            }.disposed(by: disposeBag)
+
+        mainView.exchangeView.rightTextField.doneButton.rx.tap
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.mainView.exchangeView.rightTextField.resignFirstResponder()
+            }.disposed(by: disposeBag)
+
+        mainView.orderMethodView.rightTextField.doneButton.rx.tap
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.mainView.orderMethodView.rightTextField.resignFirstResponder()
+            }.disposed(by: disposeBag)
+
+        mainView.leverageView.rightTextField.doneButton.rx.tap
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.mainView.leverageView.rightTextField.resignFirstResponder()
+            }.disposed(by: disposeBag)
+
+        mainView.openPriceView.rightTextField.doneButton.rx.tap
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.mainView.openPriceView.rightTextField.resignFirstResponder()
+            }.disposed(by: disposeBag)
+
+        mainView.closePriceView.rightTextField.doneButton.rx.tap
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.mainView.closePriceView.rightTextField.resignFirstResponder()
+            }.disposed(by: disposeBag)
+
+        mainView.volumeView.rightTextField.doneButton.rx.tap
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.mainView.volumeView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
     }
 
@@ -131,11 +181,6 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.topItem?.title = "선물거래 연습 계산기"
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         addBarButtonItems()
-    }
-
-    private func configureTextField() {
-        configurePickerView()
-        mainView.exchangeView.rightTextField.inputView = mainView.exchangePicker
     }
 
     private func addBarButtonItems() {
@@ -352,24 +397,9 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         mainView.exchangePicker.delegate = self
         mainView.exchangePicker.dataSource = self
         mainView.exchangeView.rightTextField.inputView = mainView.exchangePicker
-        configExchangeToolbar()
-        mainView.methodPicker.backgroundColor = .systemGray
         mainView.methodPicker.delegate = self
         mainView.methodPicker.dataSource = self
         mainView.orderMethodView.rightTextField.inputView = mainView.methodPicker
-        configMethodToolbar()
-    }
-
-    func configExchangeToolbar() {
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        mainView.exchangeToolBar.setItems([flexibleSpace, mainView.exchangeDoneButton], animated: false)
-        mainView.exchangeView.rightTextField.inputAccessoryView = mainView.exchangeToolBar
-    }
-
-    func configMethodToolbar() {
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        mainView.methodToolBar.setItems([flexibleSpace, mainView.methodDoneButton], animated: false)
-        mainView.orderMethodView.rightTextField.inputAccessoryView = mainView.methodToolBar
     }
 
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
