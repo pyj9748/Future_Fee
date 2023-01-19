@@ -52,6 +52,9 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         bind()
         bindViewModel()
+        mainView.longButton.selected()
+        mainView.shortButton.deselected()
+        viewModel.output.trade.onNext(.Long)
     }
 
     private func bind() {
@@ -63,28 +66,6 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         mainView.resetBarButtonItem.rx.tap
             .bind { [weak self] _ in
                 self?.viewModel.input.tapReset.accept(())
-            }.disposed(by: disposeBag)
-
-        mainView.exchangePicker.rx.itemSelected
-            .subscribe(on: MainScheduler.instance)
-            .bind { [weak self] row, _ in
-                guard let cryptoExchange = self?.viewModel.cryptoExchange[row].cryptoExchange else {
-                    return
-                }
-                self?.mainView.exchangeView.rightTextField.text = cryptoExchange.name
-                self?.mainView.makerLabel.text = cryptoExchange.makerFeeString
-                self?.mainView.takerLabel.text = cryptoExchange.takerFeeString
-                self?.viewModel.output.exchange.onNext(cryptoExchange)
-            }.disposed(by: disposeBag)
-
-        mainView.methodPicker.rx.itemSelected
-            .subscribe(on: MainScheduler.instance)
-            .bind { [weak self] row, _ in
-                guard let method = self?.viewModel.method[row] else {
-                    return
-                }
-                self?.mainView.orderMethodView.rightTextField.text = method.rawValue
-                self?.viewModel.output.orderMethod.onNext(method)
             }.disposed(by: disposeBag)
 
         mainView.longButton.rx.tap
@@ -130,12 +111,26 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         mainView.exchangeView.rightTextField.doneButton.rx.tap
             .subscribe(on: MainScheduler.instance)
             .bind { [weak self] _ in
+                guard let row = self?.mainView.exchangePicker.selectedRow(inComponent: 0),
+                      let cryptoExchange = self?.viewModel.cryptoExchange[row].cryptoExchange else {
+                    return
+                }
+                self?.mainView.exchangeView.rightTextField.text = cryptoExchange.name
+                self?.mainView.makerLabel.text = cryptoExchange.makerFeeString
+                self?.mainView.takerLabel.text = cryptoExchange.takerFeeString
+                self?.viewModel.output.exchange.onNext(cryptoExchange)
                 self?.mainView.exchangeView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
 
         mainView.orderMethodView.rightTextField.doneButton.rx.tap
             .subscribe(on: MainScheduler.instance)
             .bind { [weak self] _ in
+                guard let row = self?.mainView.methodPicker.selectedRow(inComponent: 0),
+                      let method = self?.viewModel.method[row] else {
+                    return
+                }
+                self?.mainView.orderMethodView.rightTextField.text = method.rawValue
+                self?.viewModel.output.orderMethod.onNext(method)
                 self?.mainView.orderMethodView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
 
@@ -173,6 +168,10 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         viewModel.input.tapReset
             .bind { [weak self] _ in
                 self?.reset()
+                self?.viewModel.output.leverage.onNext(0)
+                self?.viewModel.output.openPrice.onNext(0)
+                self?.viewModel.output.closePrice.onNext(0)
+                self?.viewModel.output.volume.onNext(0)
             }
             .disposed(by: disposeBag)
     }
@@ -209,6 +208,8 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func reset() {
+        mainView.exchangeView.rightTextField.text = ""
+        mainView.orderMethodView.rightTextField.text = ""
         mainView.leverageView.rightTextField.text = ""
         mainView.openPriceView.rightTextField.text = ""
         mainView.closePriceView.rightTextField.text = ""
