@@ -11,6 +11,7 @@
 		2845A5C9282AB0B500C13348 /* RxAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2845A5C8282AB0B500C13348 /* RxAlamofire */; };
 		2845A5D0282AB49C00C13348 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 2845A5CF282AB49C00C13348 /* SwiftSoup */; };
 		2845A5D2282AC4A200C13348 /* CryptoExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845A5D1282AC4A200C13348 /* CryptoExchange.swift */; };
+		28653487297ABE4F00278326 /* InputError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28653486297ABE4F00278326 /* InputError.swift */; };
 		28A68171281E6349009BF58D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A68170281E6349009BF58D /* AppDelegate.swift */; };
 		28A68173281E6349009BF58D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A68172281E6349009BF58D /* SceneDelegate.swift */; };
 		28A68175281E6349009BF58D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A68174281E6349009BF58D /* ViewController.swift */; };
@@ -26,10 +27,15 @@
 		28BE4DD3296ADD2E00ADB583 /* LabelTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD2296ADD2E00ADB583 /* LabelTextFieldView.swift */; };
 		28BE4DD5296ADD5B00ADB583 /* LabelLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD4296ADD5B00ADB583 /* LabelLabelView.swift */; };
 		28BE4DD8296BC71600ADB583 /* Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD7296BC71600ADB583 /* Trade.swift */; };
+		28BE4DDA296EC46800ADB583 /* ToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DD9296EC46800ADB583 /* ToolBar.swift */; };
+		28BE4DDC296ECB6000ADB583 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE4DDB296ECB6000ADB583 /* ViewModel.swift */; };
+		28F981CE29767A4F00BFEC90 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F981CD29767A4F00BFEC90 /* Method.swift */; };
+		28F981D029767A6400BFEC90 /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F981CF29767A6400BFEC90 /* Exchange.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2845A5D1282AC4A200C13348 /* CryptoExchange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoExchange.swift; sourceTree = "<group>"; };
+		28653486297ABE4F00278326 /* InputError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputError.swift; sourceTree = "<group>"; };
 		28A6816D281E6349009BF58D /* Future Fee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Future Fee.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28A68170281E6349009BF58D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28A68172281E6349009BF58D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +51,10 @@
 		28BE4DD2296ADD2E00ADB583 /* LabelTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTextFieldView.swift; sourceTree = "<group>"; };
 		28BE4DD4296ADD5B00ADB583 /* LabelLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelLabelView.swift; sourceTree = "<group>"; };
 		28BE4DD7296BC71600ADB583 /* Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade.swift; sourceTree = "<group>"; };
+		28BE4DD9296EC46800ADB583 /* ToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBar.swift; sourceTree = "<group>"; };
+		28BE4DDB296ECB6000ADB583 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		28F981CD29767A4F00BFEC90 /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = "<group>"; };
+		28F981CF29767A6400BFEC90 /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +73,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28653488297D765E00278326 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				28653486297ABE4F00278326 /* InputError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		28A68164281E6349009BF58D = {
 			isa = PBXGroup;
 			children = (
@@ -82,17 +100,18 @@
 		28A6816F281E6349009BF58D /* Future Fee */ = {
 			isa = PBXGroup;
 			children = (
-				28A68170281E6349009BF58D /* AppDelegate.swift */,
-				28A68172281E6349009BF58D /* SceneDelegate.swift */,
+				28A6817E281E634A009BF58D /* Info.plist */,
 				28BE4DC6296ACC9500ADB583 /* MainView.swift */,
 				28A68174281E6349009BF58D /* ViewController.swift */,
-				2845A5D1282AC4A200C13348 /* CryptoExchange.swift */,
+				28BE4DDB296ECB6000ADB583 /* ViewModel.swift */,
+				28A68179281E634A009BF58D /* Assets.xcassets */,
+				28653488297D765E00278326 /* Error */,
+				28BE4DDE296ECB7900ADB583 /* App */,
+				28BE4DC8296AD10200ADB583 /* Components */,
+				28A6817B281E634A009BF58D /* LaunchScreen.storyboard */,
 				28BE4DD6296BC6F400ADB583 /* Model */,
 				28BE4DCF296AD83900ADB583 /* Resource */,
-				28BE4DC8296AD10200ADB583 /* Components */,
-				28A68179281E634A009BF58D /* Assets.xcassets */,
-				28A6817B281E634A009BF58D /* LaunchScreen.storyboard */,
-				28A6817E281E634A009BF58D /* Info.plist */,
+				28BE4DDF296ECB9500ADB583 /* Service */,
 			);
 			path = "Future Fee";
 			sourceTree = "<group>";
@@ -105,6 +124,7 @@
 				28BE4DCD296AD58B00ADB583 /* Button.swift */,
 				28BE4DD2296ADD2E00ADB583 /* LabelTextFieldView.swift */,
 				28BE4DD4296ADD5B00ADB583 /* LabelLabelView.swift */,
+				28BE4DD9296EC46800ADB583 /* ToolBar.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -120,9 +140,28 @@
 		28BE4DD6296BC6F400ADB583 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2845A5D1282AC4A200C13348 /* CryptoExchange.swift */,
 				28BE4DD7296BC71600ADB583 /* Trade.swift */,
+				28F981CD29767A4F00BFEC90 /* Method.swift */,
+				28F981CF29767A6400BFEC90 /* Exchange.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		28BE4DDE296ECB7900ADB583 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				28A68170281E6349009BF58D /* AppDelegate.swift */,
+				28A68172281E6349009BF58D /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		28BE4DDF296ECB9500ADB583 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,16 +247,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28653487297ABE4F00278326 /* InputError.swift in Sources */,
 				28A68175281E6349009BF58D /* ViewController.swift in Sources */,
 				2845A5D2282AC4A200C13348 /* CryptoExchange.swift in Sources */,
 				28BE4DD8296BC71600ADB583 /* Trade.swift in Sources */,
 				28A68171281E6349009BF58D /* AppDelegate.swift in Sources */,
 				28BE4DCE296AD58B00ADB583 /* Button.swift in Sources */,
+				28F981CE29767A4F00BFEC90 /* Method.swift in Sources */,
 				28BE4DCA296AD14A00ADB583 /* TextField.swift in Sources */,
+				28BE4DDC296ECB6000ADB583 /* ViewModel.swift in Sources */,
 				28BE4DD3296ADD2E00ADB583 /* LabelTextFieldView.swift in Sources */,
 				28BE4DD5296ADD5B00ADB583 /* LabelLabelView.swift in Sources */,
 				28BE4DC7296ACC9500ADB583 /* MainView.swift in Sources */,
 				28BE4DCC296AD33700ADB583 /* Label.swift in Sources */,
+				28F981D029767A6400BFEC90 /* Exchange.swift in Sources */,
+				28BE4DDA296EC46800ADB583 /* ToolBar.swift in Sources */,
 				28A68173281E6349009BF58D /* SceneDelegate.swift in Sources */,
 				28BE4DD1296AD85500ADB583 /* UIColor+.swift in Sources */,
 			);

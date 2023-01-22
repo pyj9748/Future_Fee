@@ -27,6 +27,7 @@ final class Button: UIButton {
         layer.borderWidth = 2
         layer.borderColor = backgroundColor.cgColor
         layer.cornerRadius = 8
+        isUserInteractionEnabled = true
         clipsToBounds = true
     }
 
