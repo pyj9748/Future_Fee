@@ -14,33 +14,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     var viewModel: ViewModel = ViewModel()
     private let disposeBag = DisposeBag()
 
-    var trade: Trade = Trade.Long
-
-    // 계산 요소
-    // BTCUSTD
-    var _BTCUSDT: Double = 0
-    // USD
-    var _USD: Double = 0
-    // leverage
-    var leverage: Double = 0
-    // openPrice
-    var openPrice: Double = 0
-    // closePrice
-    var closePrice: Double = 0
-    // volume
-    var volume: Double = 0
-
     // Calculate alert
-    let calculateAlert = UIAlertController(title: "입력 오류", message: "0인 입력이 있거나 숫자가 아닌 입력이 있습니다", preferredStyle: UIAlertController.Style.alert)
-    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-
-    // leverage value alert
-    let leverageValueAlert = UIAlertController(title: "입력 오류", message: "레버리지는 1부터 100사이의 정수 값입니다.", preferredStyle: UIAlertController.Style.alert)
-
-    // 거래소 선택
-    let exchangeAlert = UIAlertController(title: "입력 오류", message: "거래소를 선택해주세요", preferredStyle: UIAlertController.Style.alert)
-    // 주문 방식 선택
-    let methodAlert = UIAlertController(title: "입력 오류", message: "주문방식을 선택해주세요", preferredStyle: UIAlertController.Style.alert)
 
     override func loadView() {
         view = mainView
@@ -54,7 +28,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         bindViewModel()
         mainView.longButton.selected()
         mainView.shortButton.deselected()
-        viewModel.output.trade.onNext(.Long)
+        viewModel.output.trade.accept(.Long)
     }
 
     private func bind() {
@@ -73,7 +47,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
             .bind { [weak self] _ in
                 self?.mainView.longButton.selected()
                 self?.mainView.shortButton.deselected()
-                self?.viewModel.output.trade.onNext(.Long)
+                self?.viewModel.output.trade.accept(.Long)
             }.disposed(by: disposeBag)
 
         mainView.shortButton.rx.tap
@@ -81,30 +55,30 @@ final class ViewController: UIViewController, UITextFieldDelegate {
             .bind { [weak self] _ in
                 self?.mainView.longButton.deselected()
                 self?.mainView.shortButton.selected()
-                self?.viewModel.output.trade.onNext(.Short)
+                self?.viewModel.output.trade.accept(.Short)
             }.disposed(by: disposeBag)
         mainView.leverageView.rightTextField.rx.text
             .bind { [weak self] text in
                 if let leverage = Double(text ?? "") {
-                    self?.viewModel.output.leverage.onNext(leverage)
+                    self?.viewModel.output.leverage.accept(leverage)
                 }
             }.disposed(by: disposeBag)
         mainView.openPriceView.rightTextField.rx.text
             .bind { [weak self] text in
                 if let openPrice = Double(text ?? "") {
-                    self?.viewModel.output.openPrice.onNext(openPrice)
+                    self?.viewModel.output.openPrice.accept(openPrice)
                 }
             }.disposed(by: disposeBag)
         mainView.closePriceView.rightTextField.rx.text
             .bind { [weak self] text in
                 if let closePrice = Double(text ?? "") {
-                    self?.viewModel.output.closePrice.onNext(closePrice)
+                    self?.viewModel.output.closePrice.accept(closePrice)
                 }
             }.disposed(by: disposeBag)
         mainView.volumeView.rightTextField.rx.text
             .bind { [weak self] text in
                 if let volume = Double(text ?? "") {
-                    self?.viewModel.output.volume.onNext(volume)
+                    self?.viewModel.output.volume.accept(volume)
                 }
             }.disposed(by: disposeBag)
 
@@ -112,13 +86,13 @@ final class ViewController: UIViewController, UITextFieldDelegate {
             .subscribe(on: MainScheduler.instance)
             .bind { [weak self] _ in
                 guard let row = self?.mainView.exchangePicker.selectedRow(inComponent: 0),
-                      let cryptoExchange = self?.viewModel.cryptoExchange[row].cryptoExchange else {
+                      let exchange = self?.viewModel.cryptoExchange[row] else {
                     return
                 }
-                self?.mainView.exchangeView.rightTextField.text = cryptoExchange.name
-                self?.mainView.makerLabel.text = cryptoExchange.makerFeeString
-                self?.mainView.takerLabel.text = cryptoExchange.takerFeeString
-                self?.viewModel.output.exchange.onNext(cryptoExchange)
+                self?.mainView.exchangeView.rightTextField.text = exchange.cryptoExchange.name
+                self?.mainView.makerLabel.text = exchange.cryptoExchange.makerFeeString
+                self?.mainView.takerLabel.text = exchange.cryptoExchange.takerFeeString
+                self?.viewModel.output.exchange.accept(exchange)
                 self?.mainView.exchangeView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
 
@@ -130,8 +104,13 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                     return
                 }
                 self?.mainView.orderMethodView.rightTextField.text = method.rawValue
-                self?.viewModel.output.orderMethod.onNext(method)
+                self?.viewModel.output.orderMethod.accept(method)
                 self?.mainView.orderMethodView.rightTextField.resignFirstResponder()
+            }.disposed(by: disposeBag)
+
+        mainView.calculateButton.rx.tap
+            .bind { [weak self] in
+                self?.viewModel.input.tapCalculate.accept(())
             }.disposed(by: disposeBag)
 
         mainView.leverageView.rightTextField.doneButton.rx.tap
@@ -157,6 +136,23 @@ final class ViewController: UIViewController, UITextFieldDelegate {
             .bind { [weak self] _ in
                 self?.mainView.volumeView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
+
+        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidBegin)
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                UIView.animate(
+                    withDuration: 0.3
+                    , animations: {
+                        self?.view.transform = CGAffineTransform(translationX: 0, y: -50)
+                    }
+                )
+            }.disposed(by: disposeBag)
+        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidEnd)
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.view.transform = .identity
+            }.disposed(by: disposeBag)
+
     }
 
     private func bindViewModel() {
@@ -168,10 +164,17 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         viewModel.input.tapReset
             .bind { [weak self] _ in
                 self?.reset()
-                self?.viewModel.output.leverage.onNext(0)
-                self?.viewModel.output.openPrice.onNext(0)
-                self?.viewModel.output.closePrice.onNext(0)
-                self?.viewModel.output.volume.onNext(0)
+                self?.viewModel.output.leverage.accept(0)
+                self?.viewModel.output.openPrice.accept(0)
+                self?.viewModel.output.closePrice.accept(0)
+                self?.viewModel.output.volume.accept(0)
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.output.showAlert
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] error in
+                self?.showAlert(error)
             }
             .disposed(by: disposeBag)
     }
@@ -219,6 +222,14 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         mainView.usdtProfitView.rightLabel.text = "0"
         mainView.wonProfitView.rightLabel.text = "0"
         mainView.roeView.rightLabel.text = "0"
+    }
+
+    private func showAlert(_ error: InputError?) {
+        guard let error else { return }
+        let alert = UIAlertController(title: "입력 오류", message: error.description, preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
 }
 

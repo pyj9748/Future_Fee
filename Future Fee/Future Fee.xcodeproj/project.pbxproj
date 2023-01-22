@@ -11,6 +11,7 @@
 		2845A5C9282AB0B500C13348 /* RxAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2845A5C8282AB0B500C13348 /* RxAlamofire */; };
 		2845A5D0282AB49C00C13348 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 2845A5CF282AB49C00C13348 /* SwiftSoup */; };
 		2845A5D2282AC4A200C13348 /* CryptoExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845A5D1282AC4A200C13348 /* CryptoExchange.swift */; };
+		28653487297ABE4F00278326 /* InputError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28653486297ABE4F00278326 /* InputError.swift */; };
 		28A68171281E6349009BF58D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A68170281E6349009BF58D /* AppDelegate.swift */; };
 		28A68173281E6349009BF58D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A68172281E6349009BF58D /* SceneDelegate.swift */; };
 		28A68175281E6349009BF58D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A68174281E6349009BF58D /* ViewController.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		2845A5D1282AC4A200C13348 /* CryptoExchange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoExchange.swift; sourceTree = "<group>"; };
+		28653486297ABE4F00278326 /* InputError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputError.swift; sourceTree = "<group>"; };
 		28A6816D281E6349009BF58D /* Future Fee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Future Fee.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28A68170281E6349009BF58D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28A68172281E6349009BF58D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +73,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28653488297D765E00278326 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				28653486297ABE4F00278326 /* InputError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		28A68164281E6349009BF58D = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +105,7 @@
 				28A68174281E6349009BF58D /* ViewController.swift */,
 				28BE4DDB296ECB6000ADB583 /* ViewModel.swift */,
 				28A68179281E634A009BF58D /* Assets.xcassets */,
+				28653488297D765E00278326 /* Error */,
 				28BE4DDE296ECB7900ADB583 /* App */,
 				28BE4DC8296AD10200ADB583 /* Components */,
 				28A6817B281E634A009BF58D /* LaunchScreen.storyboard */,
@@ -236,6 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28653487297ABE4F00278326 /* InputError.swift in Sources */,
 				28A68175281E6349009BF58D /* ViewController.swift in Sources */,
 				2845A5D2282AC4A200C13348 /* CryptoExchange.swift in Sources */,
 				28BE4DD8296BC71600ADB583 /* Trade.swift in Sources */,

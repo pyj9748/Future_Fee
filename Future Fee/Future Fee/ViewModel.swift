@@ -7,6 +7,7 @@
 
 import Foundation
 import RxCocoa
+import RxRelay
 import RxSwift
 
 final class ViewModel {
@@ -14,25 +15,27 @@ final class ViewModel {
 
     let cryptoExchange = Exchange.allCases
     let method = Method.allCases
+    var input = Input()
+    var output = Output()
 
     struct Input {
         var tapInfo = PublishRelay<Void>()
         var tapReset = PublishRelay<Void>()
+        var tapCalculate = PublishRelay<Void>()
     }
 
     struct Output {
-        var exchangeRate = PublishSubject<CryptoExchange>()
-        var exchange = PublishSubject<CryptoExchange>()
-        var trade = PublishSubject<Trade>()
-        var orderMethod = PublishSubject<Method>()
-        var leverage = PublishSubject<Double>()
-        var openPrice = PublishSubject<Double>()
-        var closePrice = PublishSubject<Double>()
-        var volume = PublishSubject<Double>()
+        // var exchangeRate = BehaviorSubject<Double>(value: <#CryptoExchange#>)
+        var exchange = BehaviorRelay<Exchange?>(value: nil)
+        var trade = BehaviorRelay<Trade>(value: .Long)
+        var orderMethod = BehaviorRelay<Method?>(value: nil)
+        var leverage = BehaviorRelay<Double>(value: 0.0)
+        var openPrice = BehaviorRelay<Double>(value: 0.0)
+        var closePrice = BehaviorRelay<Double>(value: 0.0)
+        var volume = BehaviorRelay<Double>(value: 0.0)
+        var showAlert = BehaviorRelay<InputError?>(value: nil)
+        // var result = BehaviorRelay<InputError?>(value: nil)
     }
-
-    var input = Input()
-    var output = Output()
 
     init() {
         bindInput()
@@ -41,41 +44,32 @@ final class ViewModel {
     }
 
     private func bindInput() {
-        
-    }
-    
+        input.tapCalculate.bind { [weak self] _ in
+            guard let _ = self?.output.exchange.value else {
+                self?.output.showAlert.accept(.exchangeError)
+                return
+            }
+            guard let _ = self?.output.orderMethod.value else {
+                self?.output.showAlert.accept(.orderMethodError)
+                return
+            }
+            guard let leverage = self?.output.leverage.value,
+                  leverage >= 1.0 && leverage <= 100.0 else {
+                self?.output.showAlert.accept(.leverageError)
+                return
+            }
+            guard self?.output.openPrice.value != 0,
+                  self?.output.closePrice.value != 0,
+                  self?.output.volume.value != 0 else {
+                self?.output.showAlert.accept(.zeroError)
+                return
+            }
 
-    private func bindOutput() {
-        output.exchange.bind { cryptoExchange in
-            print(cryptoExchange)
         }.disposed(by: disposeBag)
-        
-        output.trade.bind { trade in
-            print(trade)
-        }.disposed(by: disposeBag)
-        
-        output.orderMethod.bind { orderMethod in
-            print(orderMethod)
-        }.disposed(by: disposeBag)
-        
-        output.leverage.bind { leverage in
-            print(leverage)
-        }.disposed(by: disposeBag)
-        
-        output.openPrice.bind { openPrice in
-            print(openPrice)
-        }.disposed(by: disposeBag)
-        
-        output.closePrice.bind { closePrice in
-            print(closePrice)
-        }.disposed(by: disposeBag)
-        
-        output.volume.bind { volume in
-            print(volume)
-        }.disposed(by: disposeBag)
-        
     }
-    
+
+    private func bindOutput() {}
+
     private func fetchExchangeRate() {
         print(crawlUSD {})
     }
