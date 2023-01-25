@@ -152,7 +152,6 @@ final class ViewController: UIViewController, UITextFieldDelegate {
             .bind { [weak self] _ in
                 self?.view.transform = .identity
             }.disposed(by: disposeBag)
-
     }
 
     private func bindViewModel() {
@@ -170,11 +169,46 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                 self?.viewModel.output.volume.accept(0)
             }
             .disposed(by: disposeBag)
-        
+
         viewModel.output.showAlert
             .subscribe(on: MainScheduler.instance)
             .bind { [weak self] error in
                 self?.showAlert(error)
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.output.fee
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] fee in
+                self?.mainView.feeView.rightLabel.text = String(format: "%.2f", fee)
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.output.deposit
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] deposit in
+                self?.mainView.depositView.rightLabel.text = String(format: "%.2f", deposit)
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.output.usdtProfit
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] usdtProfit in
+                self?.mainView.usdtProfitView.rightLabel.text = String(format: "%.2f", usdtProfit)
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.output.wonProfit
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] wonProfit in
+                self?.mainView.wonProfitView.rightLabel.text = String(format: "%.2f", wonProfit)
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.output.roe
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] roe in
+                self?.mainView.roeView.rightLabel.text = String(format: "%.2f", roe)
             }
             .disposed(by: disposeBag)
     }
@@ -232,173 +266,6 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         present(alert, animated: true, completion: nil)
     }
 }
-
-//        configPickerView()
-//        updateRealPrice()
-//        if exchangeTF.text == "거래소를 선택하세요" {
-//            exchangeTF.textColor = UIColor.darkGray
-//        }
-//        if methodTF.text == "주문방식을 선택하세요" {
-//            methodTF.textColor = UIColor.darkGray
-//        }
-//
-//        setTF()
-//        setPlaceholder()
-//        calculateAlert.addAction(okAction)
-//        infoAlert.addAction(okAction)
-//        leverageValueAlert.addAction(okAction)
-//        methodAlert.addAction(okAction)
-//        exchangeAlert.addAction(okAction)
-//
-//        longBT.backgroundColor = UIColor.green
-//        longBT.setTitleColor(UIColor.black, for: .normal)
-//
-//        shortBT.backgroundColor = UIColor.black
-//        shortBT.setTitleColor(UIColor.red, for: .normal)
-//
-//        trade = Trade.Long
-// }
-
-//
-//    func updateRealPrice() {
-//        _BTCUSDT = crawlBTCUSDT(completion: {})
-//        _USD = crawlUSD(completion: {
-//            print(self.lblUSD.text ?? "USD")
-//        })
-//        lblUSD.text = String(_USD)
-//    }
-//
-//    @IBAction func tapLongBT(_ sender: UIButton) {
-//        longBT.backgroundColor = UIColor.green
-//        longBT.setTitleColor(UIColor.white, for: .normal)
-//
-//        shortBT.backgroundColor = UIColor.black
-//        shortBT.setTitleColor(UIColor.red, for: .normal)
-//
-//        trade = Trade.Long
-//    }
-//
-//    @IBAction func tapShortBT(_ sender: UIButton) {
-//        longBT.backgroundColor = UIColor.black
-//        longBT.setTitleColor(UIColor.green, for: .normal)
-//
-//        shortBT.backgroundColor = UIColor.red
-//        shortBT.setTitleColor(UIColor.white, for: .highlighted)
-//
-//        trade = Trade.Short
-//    }
-//
-
-//
-
-//
-//    @IBAction func tapCalculateBT(_ sender: UIButton) {
-//        var l: Double = 0
-//        var o: Double = 0
-//        var c: Double = 0
-//        var v: Double = 0
-//
-//        // 주문 방식
-//        if methodTF.textColor == UIColor.darkGray {
-//            present(methodAlert, animated: true, completion: nil)
-//            return
-//        }
-//        if methodTF.text == "주문방식을 선택하세요" {
-//            present(methodAlert, animated: true, completion: nil)
-//            return
-//        }
-//        // 거래소 선택
-////        if exchangeTF.text == "거래소를 선택하세요" {
-////            present(exchangeAlert, animated: true, completion: nil)
-////            return
-////        }
-//        if exchangeTF.textColor == UIColor.darkGray {
-//            present(exchangeAlert, animated: true, completion: nil)
-//            return
-//        }
-//
-//        if let _l = Double(leverageTF.text!) {
-//            l = _l
-//        } else {
-//            present(calculateAlert, animated: true, completion: nil)
-//            return
-//        }
-//        if let _o = Double(openPriceTF.text!) {
-//            o = _o
-//        } else {
-//            present(calculateAlert, animated: true, completion: nil)
-//            return
-//        }
-//        if let _c = Double(closePriceTF.text!) {
-//            c = _c
-//        } else {
-//            present(calculateAlert, animated: true, completion: nil)
-//            return
-//        }
-//        if let _v = Double(volumeTF.text!) {
-//            v = _v
-//        } else {
-//            present(calculateAlert, animated: true, completion: nil)
-//            return
-//        }
-//
-//        if l == 0 || o == 0 || c == 0 || v == 0 {
-//            present(calculateAlert, animated: true, completion: nil)
-//            // return
-//        }
-//        // leverage
-//        if l < 1.0 || l > 100.0 || l - Double(Int(l)) != 0 {
-//            present(leverageValueAlert, animated: true, completion: nil)
-//            // return
-//        }
-//
-//        // Margin
-//
-//        var margin: Double = 0.0
-//        margin = (o / l) * v
-//        lblMargin.text = String(format: "%.2f", margin)
-//        print(margin)
-//        // open
-//        let open: Double = o * v
-//        print("open : ", open)
-//
-//        // close
-//        let close: Double = c * v
-//        print("close : ", close)
-//
-//        // fee
-//        var fee: Double = 0.0
-//        if methodTF.text! == "시장가" {
-//            if let feePercent = Double(lblTaker.text!) {
-//                fee = ((open * feePercent) / 100) + ((close * feePercent) / 100)
-//
-//                lblFee.text = String(format: "%.2f", fee)
-//            }
-//        } else {
-//            if let feePercent = Double(lblMaker.text!) {
-//                fee = ((open * feePercent) / 100) + ((close * feePercent) / 100)
-//
-//                lblFee.text = String(format: "%.2f", fee)
-//            }
-//        }
-//        // profit
-//        if trade == Trade.Long {
-//            let profit: Double = (close - open) - fee
-//            lblUSDTProfit.text = String(format: "%.2f", profit)
-//            lblWonProfit.text = String(format: "%.2f", profit * _USD)
-//
-//            // ROE
-//            lblROE.text = String(format: "%.2f", (profit / margin) * 100)
-//        } else {
-//            let profit: Double = (open - close) - fee
-//            lblUSDTProfit.text = String(format: "%.2f", profit)
-//            lblWonProfit.text = String(format: "%.2f", profit * _USD)
-//            // ROE
-//            lblROE.text = String(format: "%.2f", (profit / margin) * 100)
-//        }
-//        // ROE
-//    }
-// }
 
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
