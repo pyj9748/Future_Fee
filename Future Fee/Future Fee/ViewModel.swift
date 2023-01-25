@@ -130,7 +130,8 @@ final class ViewModel {
     //            lblROE.text = String(format: "%.2f", (profit / margin) * 100)
     //        }
     private func calculateDeposit() {
-        
+        var deposit: Double = output.openPrice.value * output.volume.value
+        output.deposit.accept(deposit)
     }
     
     private func calculateFee() {

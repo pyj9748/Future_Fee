@@ -184,6 +184,13 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                 self?.mainView.feeView.rightLabel.text = String(format: "%.2f", fee)
             }
             .disposed(by: disposeBag)
+        
+        viewModel.output.deposit
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] deposit in
+                self?.mainView.depositView.rightLabel.text = String(format: "%.2f", deposit)
+            }
+            .disposed(by: disposeBag)
     }
 
     private func configureNavigationBar() {
