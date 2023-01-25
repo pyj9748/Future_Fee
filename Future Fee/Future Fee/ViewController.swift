@@ -177,6 +177,13 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                 self?.showAlert(error)
             }
             .disposed(by: disposeBag)
+        
+        viewModel.output.fee
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] fee in
+                self?.mainView.feeView.rightLabel.text = String(format: "%.2f", fee)
+            }
+            .disposed(by: disposeBag)
     }
 
     private func configureNavigationBar() {
@@ -288,117 +295,6 @@ final class ViewController: UIViewController, UITextFieldDelegate {
 //        trade = Trade.Short
 //    }
 //
-
-//
-
-//
-//    @IBAction func tapCalculateBT(_ sender: UIButton) {
-//        var l: Double = 0
-//        var o: Double = 0
-//        var c: Double = 0
-//        var v: Double = 0
-//
-//        // 주문 방식
-//        if methodTF.textColor == UIColor.darkGray {
-//            present(methodAlert, animated: true, completion: nil)
-//            return
-//        }
-//        if methodTF.text == "주문방식을 선택하세요" {
-//            present(methodAlert, animated: true, completion: nil)
-//            return
-//        }
-//        // 거래소 선택
-////        if exchangeTF.text == "거래소를 선택하세요" {
-////            present(exchangeAlert, animated: true, completion: nil)
-////            return
-////        }
-//        if exchangeTF.textColor == UIColor.darkGray {
-//            present(exchangeAlert, animated: true, completion: nil)
-//            return
-//        }
-//
-//        if let _l = Double(leverageTF.text!) {
-//            l = _l
-//        } else {
-//            present(calculateAlert, animated: true, completion: nil)
-//            return
-//        }
-//        if let _o = Double(openPriceTF.text!) {
-//            o = _o
-//        } else {
-//            present(calculateAlert, animated: true, completion: nil)
-//            return
-//        }
-//        if let _c = Double(closePriceTF.text!) {
-//            c = _c
-//        } else {
-//            present(calculateAlert, animated: true, completion: nil)
-//            return
-//        }
-//        if let _v = Double(volumeTF.text!) {
-//            v = _v
-//        } else {
-//            present(calculateAlert, animated: true, completion: nil)
-//            return
-//        }
-//
-//        if l == 0 || o == 0 || c == 0 || v == 0 {
-//            present(calculateAlert, animated: true, completion: nil)
-//            // return
-//        }
-//        // leverage
-//        if l < 1.0 || l > 100.0 || l - Double(Int(l)) != 0 {
-//            present(leverageValueAlert, animated: true, completion: nil)
-//            // return
-//        }
-//
-//        // Margin
-//
-//        var margin: Double = 0.0
-//        margin = (o / l) * v
-//        lblMargin.text = String(format: "%.2f", margin)
-//        print(margin)
-//        // open
-//        let open: Double = o * v
-//        print("open : ", open)
-//
-//        // close
-//        let close: Double = c * v
-//        print("close : ", close)
-//
-//        // fee
-//        var fee: Double = 0.0
-//        if methodTF.text! == "시장가" {
-//            if let feePercent = Double(lblTaker.text!) {
-//                fee = ((open * feePercent) / 100) + ((close * feePercent) / 100)
-//
-//                lblFee.text = String(format: "%.2f", fee)
-//            }
-//        } else {
-//            if let feePercent = Double(lblMaker.text!) {
-//                fee = ((open * feePercent) / 100) + ((close * feePercent) / 100)
-//
-//                lblFee.text = String(format: "%.2f", fee)
-//            }
-//        }
-//        // profit
-//        if trade == Trade.Long {
-//            let profit: Double = (close - open) - fee
-//            lblUSDTProfit.text = String(format: "%.2f", profit)
-//            lblWonProfit.text = String(format: "%.2f", profit * _USD)
-//
-//            // ROE
-//            lblROE.text = String(format: "%.2f", (profit / margin) * 100)
-//        } else {
-//            let profit: Double = (open - close) - fee
-//            lblUSDTProfit.text = String(format: "%.2f", profit)
-//            lblWonProfit.text = String(format: "%.2f", profit * _USD)
-//            // ROE
-//            lblROE.text = String(format: "%.2f", (profit / margin) * 100)
-//        }
-//        // ROE
-//    }
-// }
 
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
