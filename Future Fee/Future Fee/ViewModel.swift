@@ -22,12 +22,10 @@ final class ViewModel {
         var tapInfo = PublishRelay<Void>()
         var tapReset = PublishRelay<Void>()
         var tapCalculate = PublishRelay<Void>()
-        
-        
     }
 
     struct Output {
-        // var exchangeRate = BehaviorSubject<Double>(value: <#CryptoExchange#>)
+        var exchangeRate = BehaviorRelay<Double>(value: 1200.0)
         var exchange = BehaviorRelay<Exchange?>(value: nil)
         var trade = BehaviorRelay<Trade>(value: .Long)
         var orderMethod = BehaviorRelay<Method?>(value: nil)
@@ -36,12 +34,12 @@ final class ViewModel {
         var closePrice = BehaviorRelay<Double>(value: 0.0)
         var volume = BehaviorRelay<Double>(value: 0.0)
         var showAlert = BehaviorRelay<InputError?>(value: nil)
-        
+
         var deposit = BehaviorRelay<Double>(value: 0.0)
         var fee = BehaviorRelay<Double>(value: 0.0)
         var usdtProfit = BehaviorRelay<Double>(value: 0.0)
         var wonProfit = BehaviorRelay<Double>(value: 0.0)
-        var roeView = BehaviorRelay<Double>(value: 0.0)
+        var roe = BehaviorRelay<Double>(value: 0.0)
     }
 
     init() {
@@ -77,68 +75,23 @@ final class ViewModel {
     }
 
     private func bindOutput() {}
-    
+
     private func calculateResult() {
-        calculateDeposit()
-        calculateFee()
-        calculateUSDTProfit()
-        calculateWonProfit()
-        calculateROE()
+        let open: Double = output.openPrice.value * output.volume.value
+        let close: Double = output.closePrice.value * output.volume.value
+        calculateDeposit(open)
+        calculateFee(open, close)
+        calculateProfit(open, close)
     }
-    //        // Margin
-    //
-    //        var margin: Double = 0.0
-    //        margin = (o / l) * v
-    //        lblMargin.text = String(format: "%.2f", margin)
-    //        print(margin)
-    //        // open
-    //        let open: Double = o * v
-    //        print("open : ", open)
-    //
-    //        // close
-    //        let close: Double = c * v
-    //        print("close : ", close)
-    //
-    //        // fee
-    //        var fee: Double = 0.0
-    //        if methodTF.text! == "시장가" {
-    //            if let feePercent = Double(lblTaker.text!) {
-    //                fee = ((open * feePercent) / 100) + ((close * feePercent) / 100)
-    //
-    //                lblFee.text = String(format: "%.2f", fee)
-    //            }
-    //        } else {
-    //            if let feePercent = Double(lblMaker.text!) {
-    //                fee = ((open * feePercent) / 100) + ((close * feePercent) / 100)
-    //
-    //                lblFee.text = String(format: "%.2f", fee)
-    //            }
-    //        }
-    //        // profit
-    //        if trade == Trade.Long {
-    //            let profit: Double = (close - open) - fee
-    //            lblUSDTProfit.text = String(format: "%.2f", profit)
-    //            lblWonProfit.text = String(format: "%.2f", profit * _USD)
-    //
-    //            // ROE
-    //            lblROE.text = String(format: "%.2f", (profit / margin) * 100)
-    //        } else {
-    //            let profit: Double = (open - close) - fee
-    //            lblUSDTProfit.text = String(format: "%.2f", profit)
-    //            lblWonProfit.text = String(format: "%.2f", profit * _USD)
-    //            // ROE
-    //            lblROE.text = String(format: "%.2f", (profit / margin) * 100)
-    //        }
-    private func calculateDeposit() {
-        var deposit: Double = output.openPrice.value * output.volume.value
+
+    private func calculateDeposit(_ open: Double) {
+        let deposit: Double = open
         output.deposit.accept(deposit)
     }
-    
-    private func calculateFee() {
+
+    private func calculateFee(_ open: Double, _ close: Double) {
         var fee: Double = 0.0
         var feePercent: Double = 0.0
-        var open: Double = output.openPrice.value * output.volume.value
-        var close: Double = output.closePrice.value * output.volume.value
         switch output.orderMethod.value {
         case .maker:
             feePercent = output.exchange.value?.cryptoExchange.makerFee ?? 0.0
@@ -150,19 +103,34 @@ final class ViewModel {
         fee = ((open * feePercent) / 100) + ((close * feePercent) / 100)
         output.fee.accept(fee)
     }
-    
-    private func calculateUSDTProfit() {
-        
+
+    private func calculateProfit(_ open: Double, _ close: Double) {
+        var profit: Double = 0.0
+        switch output.trade.value {
+        case .Long:
+            profit = (close - open) - output.fee.value
+        case .Short:
+            profit = (open - close) - output.fee.value
+        }
+        calculateUSDTProfit(profit)
+        calculateWonProfit(profit)
+        calculateROE(open, profit)
     }
-    
-    private func calculateWonProfit() {
-        
+
+    private func calculateUSDTProfit(_ profit: Double) {
+        output.usdtProfit.accept(profit)
     }
-    
-    private func calculateROE() {
-        
+
+    private func calculateWonProfit(_ profit: Double) {
+        let wonProfit: Double = profit * output.exchangeRate.value
+        output.wonProfit.accept(wonProfit)
     }
-    
+
+    private func calculateROE(_ open: Double, _ profit: Double) {
+        let roe: Double = (profit / open) * 100
+        output.roe.accept(roe)
+    }
+
     private func fetchExchangeRate() {
         print(crawlUSD {})
     }
