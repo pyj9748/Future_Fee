@@ -9,6 +9,7 @@ import Foundation
 import RxCocoa
 import RxRelay
 import RxSwift
+import SwiftSoup
 
 final class ViewModel {
     var disposeBag = DisposeBag()
@@ -45,7 +46,7 @@ final class ViewModel {
     init() {
         bindInput()
         bindOutput()
-        fetchExchangeRate()
+        crawlExchangeRate()
     }
 
     private func bindInput() {
@@ -131,7 +132,35 @@ final class ViewModel {
         output.roe.accept(roe)
     }
 
-    private func fetchExchangeRate() {
-        print(crawlUSD {})
+    
+    
+    private func crawlExchangeRate() {
+        DispatchQueue.global().async { [weak self] in
+            let url = URL(string: "https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%ED%99%98%EC%9C%A8&oquery=ghksdbf&tqi=hFVpHwprvmZssLfpRwwssssstLl-431102")
+            var price: Double = 1.0
+            guard let myURL = url else {
+                return
+            }
+            do {
+                let html = try String(contentsOf: myURL, encoding: .utf8)
+                let doc: Document = try SwiftSoup.parse(html)
+                let elements: Elements = try doc.select("#ds_to_money")
+                for element in elements {
+                    var a = try String(element.attr("value"))
+                    a = String(String(a[a.startIndex]) + String(a[a.index(a.startIndex, offsetBy: 2) ... a.index(a.startIndex, offsetBy: 7)]))
+                    guard let p = Double(a) else {
+                       return
+                    }
+                    price = p
+                }
+                DispatchQueue.main.async {
+                    self?.output.exchangeRate.accept(price)
+                }
+            } catch let Exception.Error(_, message) {
+                print("Message: \(message)")
+            } catch {
+                print("error")
+            }
+        }
     }
 }
