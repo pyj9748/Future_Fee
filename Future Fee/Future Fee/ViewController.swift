@@ -13,9 +13,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     private let mainView = MainView()
     var viewModel: ViewModel = ViewModel()
     private let disposeBag = DisposeBag()
-
-    // Calculate alert
-
+    
     override func loadView() {
         view = mainView
         configureNavigationBar()
@@ -155,6 +153,12 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func bindViewModel() {
+        viewModel.output.exchangeRate
+            .subscribe(on: MainScheduler.instance)
+            .bind { [weak self] exchangeRate in
+                self?.mainView.usdtExchangeRateView.rightLabel.text = String(format: "%.1f", exchangeRate)
+            }
+            .disposed(by: disposeBag)
         viewModel.input.tapInfo
             .bind { [weak self] _ in
                 self?.showInfo()
