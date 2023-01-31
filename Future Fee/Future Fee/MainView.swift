@@ -4,7 +4,7 @@
 //
 //  Created by young june Park on 2023/01/08.
 //
-
+import SnapKit
 import UIKit
 
 final class MainView: UIView {
@@ -124,7 +124,7 @@ final class MainView: UIView {
         super.init(frame: frame)
         configure()
         addSubview()
-        addConstraint()
+        makeConstraint()
     }
 
     required init?(coder: NSCoder) {
@@ -146,43 +146,58 @@ final class MainView: UIView {
         }
     }
 
-    private func addConstraint() {
-        NSLayoutConstraint.activate([
-            exchangeView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
-            exchangeView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5),
-            exchangeView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -5),
-            exchangeView.heightAnchor.constraint(equalToConstant: 40),
-            makerLabel.topAnchor.constraint(equalTo: exchangeView.bottomAnchor, constant: 5),
-            makerLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5),
-            makerLabel.heightAnchor.constraint(equalToConstant: 40),
-            takerLabel.topAnchor.constraint(equalTo: exchangeView.bottomAnchor, constant: 5),
-            takerLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -10),
-            takerLabel.heightAnchor.constraint(equalToConstant: 40),
-            usdtExchangeRateView.topAnchor.constraint(equalTo: makerLabel.bottomAnchor, constant: 5),
-            usdtExchangeRateView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5),
-            usdtExchangeRateView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -10),
-            usdtExchangeRateView.heightAnchor.constraint(equalToConstant: 40),
-            longButton.topAnchor.constraint(equalTo: usdtExchangeRateView.bottomAnchor, constant: 5),
-            longButton.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5),
-            longButton.heightAnchor.constraint(equalToConstant: 40),
-            longButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.45),
-            shortButton.topAnchor.constraint(equalTo: usdtExchangeRateView.bottomAnchor, constant: 5),
-            shortButton.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -5),
-            shortButton.heightAnchor.constraint(equalToConstant: 40),
-            shortButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.45),
-            inputStackView.topAnchor.constraint(equalTo: longButton.bottomAnchor, constant: 5),
-            inputStackView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5),
-            inputStackView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -5),
-            inputStackView.heightAnchor.constraint(equalToConstant: 250),
-            calculateButton.topAnchor.constraint(equalTo: inputStackView.bottomAnchor, constant: 5),
-            calculateButton.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5),
-            calculateButton.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -5),
-            calculateButton.heightAnchor.constraint(equalToConstant: 40),
-            outputStackView.topAnchor.constraint(equalTo: calculateButton.bottomAnchor, constant: 5),
-            outputStackView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5),
-            outputStackView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -10),
-            outputStackView.heightAnchor.constraint(equalToConstant: 250),
-
-        ])
+    private func makeConstraint() {
+        exchangeView.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(5)
+            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
+            make.right.equalTo(safeAreaLayoutGuide.snp.right).offset(-5)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
+        makerLabel.snp.makeConstraints { make in
+            make.top.equalTo(exchangeView.snp.bottom).offset(5)
+            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
+        takerLabel.snp.makeConstraints { make in
+            make.top.equalTo(exchangeView.snp.bottom).offset(5)
+            make.right.equalTo(safeAreaLayoutGuide.snp.right).offset(-5)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
+        usdtExchangeRateView.snp.makeConstraints { make in
+            make.top.equalTo(makerLabel.snp.bottom).offset(5)
+            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
+            make.right.equalTo(safeAreaLayoutGuide.snp.right).offset(-5)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
+        longButton.snp.makeConstraints { make in
+            make.top.equalTo(usdtExchangeRateView.snp.bottom).offset(5)
+            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
+            make.right.equalTo(self.snp.centerX).offset(-10)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
+        shortButton.snp.makeConstraints { make in
+            make.top.equalTo(usdtExchangeRateView.snp.bottom).offset(5)
+            make.left.equalTo(self.snp.centerX).offset(10)
+            make.right.equalTo(safeAreaLayoutGuide.snp.right).offset(-5)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
+        inputStackView.snp.makeConstraints { make in
+            make.top.equalTo(longButton.snp.bottom).offset(5)
+            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
+            make.right.equalTo(safeAreaLayoutGuide.snp.right).offset(-5)
+            make.height.equalToSuperview().multipliedBy(0.25)
+        }
+        calculateButton.snp.makeConstraints { make in
+            make.top.equalTo(inputStackView.snp.bottom).offset(5)
+            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
+            make.right.equalTo(safeAreaLayoutGuide.snp.right).offset(-5)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
+        outputStackView.snp.makeConstraints { make in
+            make.top.equalTo(calculateButton.snp.bottom).offset(5)
+            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
+            make.right.equalTo(safeAreaLayoutGuide.snp.right).offset(-5)
+            make.height.equalToSuperview().multipliedBy(0.25)
+        }
     }
 }

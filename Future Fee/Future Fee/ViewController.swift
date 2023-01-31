@@ -13,7 +13,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     private let mainView = MainView()
     var viewModel: ViewModel = ViewModel()
     private let disposeBag = DisposeBag()
-    
+
     override func loadView() {
         view = mainView
         configureNavigationBar()
@@ -26,7 +26,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         bindViewModel()
         mainView.longButton.selected()
         mainView.shortButton.deselected()
-        viewModel.output.trade.accept(.Long)
+        viewModel.input.trade.accept(.Long)
     }
 
     private func bind() {
@@ -45,7 +45,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
             .bind { [weak self] _ in
                 self?.mainView.longButton.selected()
                 self?.mainView.shortButton.deselected()
-                self?.viewModel.output.trade.accept(.Long)
+                self?.viewModel.input.trade.accept(.Long)
             }.disposed(by: disposeBag)
 
         mainView.shortButton.rx.tap
@@ -53,30 +53,30 @@ final class ViewController: UIViewController, UITextFieldDelegate {
             .bind { [weak self] _ in
                 self?.mainView.longButton.deselected()
                 self?.mainView.shortButton.selected()
-                self?.viewModel.output.trade.accept(.Short)
+                self?.viewModel.input.trade.accept(.Short)
             }.disposed(by: disposeBag)
         mainView.leverageView.rightTextField.rx.text
             .bind { [weak self] text in
                 if let leverage = Double(text ?? "") {
-                    self?.viewModel.output.leverage.accept(leverage)
+                    self?.viewModel.input.leverage.accept(leverage)
                 }
             }.disposed(by: disposeBag)
         mainView.openPriceView.rightTextField.rx.text
             .bind { [weak self] text in
                 if let openPrice = Double(text ?? "") {
-                    self?.viewModel.output.openPrice.accept(openPrice)
+                    self?.viewModel.input.openPrice.accept(openPrice)
                 }
             }.disposed(by: disposeBag)
         mainView.closePriceView.rightTextField.rx.text
             .bind { [weak self] text in
                 if let closePrice = Double(text ?? "") {
-                    self?.viewModel.output.closePrice.accept(closePrice)
+                    self?.viewModel.input.closePrice.accept(closePrice)
                 }
             }.disposed(by: disposeBag)
         mainView.volumeView.rightTextField.rx.text
             .bind { [weak self] text in
                 if let volume = Double(text ?? "") {
-                    self?.viewModel.output.volume.accept(volume)
+                    self?.viewModel.input.volume.accept(volume)
                 }
             }.disposed(by: disposeBag)
 
@@ -90,7 +90,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                 self?.mainView.exchangeView.rightTextField.text = exchange.cryptoExchange.name
                 self?.mainView.makerLabel.text = exchange.cryptoExchange.makerFeeString
                 self?.mainView.takerLabel.text = exchange.cryptoExchange.takerFeeString
-                self?.viewModel.output.exchange.accept(exchange)
+                self?.viewModel.input.exchange.accept(exchange)
                 self?.mainView.exchangeView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
 
@@ -102,7 +102,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                     return
                 }
                 self?.mainView.orderMethodView.rightTextField.text = method.rawValue
-                self?.viewModel.output.orderMethod.accept(method)
+                self?.viewModel.input.orderMethod.accept(method)
                 self?.mainView.orderMethodView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
 
@@ -135,25 +135,25 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                 self?.mainView.volumeView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
 
-        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidBegin)
-            .subscribe(on: MainScheduler.instance)
-            .bind { [weak self] _ in
-                UIView.animate(
-                    withDuration: 0.3
-                    , animations: {
-                        self?.view.transform = CGAffineTransform(translationX: 0, y: -50)
-                    }
-                )
-            }.disposed(by: disposeBag)
-        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidEnd)
-            .subscribe(on: MainScheduler.instance)
-            .bind { [weak self] _ in
-                self?.view.transform = .identity
-            }.disposed(by: disposeBag)
+//        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidBegin)
+//            .subscribe(on: MainScheduler.instance)
+//            .bind { [weak self] _ in
+//                UIView.animate(
+//                    withDuration: 0.3
+//                    , animations: {
+//                        self?.view.transform = CGAffineTransform(translationX: 0, y: -50)
+//                    }
+//                )
+//            }.disposed(by: disposeBag)
+//        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidEnd)
+//            .subscribe(on: MainScheduler.instance)
+//            .bind { [weak self] _ in
+//                self?.view.transform = .identity
+//            }.disposed(by: disposeBag)
     }
 
     private func bindViewModel() {
-        viewModel.output.exchangeRate
+        viewModel.input.exchangeRate
             .subscribe(on: MainScheduler.instance)
             .bind { [weak self] exchangeRate in
                 self?.mainView.usdtExchangeRateView.rightLabel.text = String(format: "%.1f", exchangeRate)
@@ -167,14 +167,14 @@ final class ViewController: UIViewController, UITextFieldDelegate {
         viewModel.input.tapReset
             .bind { [weak self] _ in
                 self?.reset()
-                self?.viewModel.output.leverage.accept(0)
-                self?.viewModel.output.openPrice.accept(0)
-                self?.viewModel.output.closePrice.accept(0)
-                self?.viewModel.output.volume.accept(0)
+                self?.viewModel.input.leverage.accept(0)
+                self?.viewModel.input.openPrice.accept(0)
+                self?.viewModel.input.closePrice.accept(0)
+                self?.viewModel.input.volume.accept(0)
             }
             .disposed(by: disposeBag)
 
-        viewModel.output.showAlert
+        viewModel.input.showAlert
             .subscribe(on: MainScheduler.instance)
             .bind { [weak self] error in
                 self?.showAlert(error)
