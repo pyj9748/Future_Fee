@@ -29,15 +29,13 @@ final class ViewModel: ViewModelType {
         var closePrice = BehaviorRelay<Double>(value: 0.0)
         var volume = BehaviorRelay<Double>(value: 0.0)
         var showAlert = BehaviorRelay<InputError?>(value: nil)
-        
+
         var tapInfo = PublishRelay<Void>()
         var tapReset = PublishRelay<Void>()
         var tapCalculate = PublishRelay<Void>()
     }
 
     struct Output {
-        
-
         var deposit = BehaviorRelay<Double>(value: 0.0)
         var fee = BehaviorRelay<Double>(value: 0.0)
         var usdtProfit = BehaviorRelay<Double>(value: 0.0)
@@ -134,8 +132,6 @@ final class ViewModel: ViewModelType {
         output.roe.accept(roe)
     }
 
-    
-    
     private func crawlExchangeRate() {
         DispatchQueue.global().async { [weak self] in
             let url = URL(string: "https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%ED%99%98%EC%9C%A8&oquery=ghksdbf&tqi=hFVpHwprvmZssLfpRwwssssstLl-431102")
@@ -151,7 +147,7 @@ final class ViewModel: ViewModelType {
                     var a = try String(element.attr("value"))
                     a = String(String(a[a.startIndex]) + String(a[a.index(a.startIndex, offsetBy: 2) ... a.index(a.startIndex, offsetBy: 7)]))
                     guard let p = Double(a) else {
-                       return
+                        return
                     }
                     price = p
                 }

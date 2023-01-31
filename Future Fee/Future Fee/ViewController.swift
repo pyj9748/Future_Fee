@@ -13,7 +13,7 @@ final class ViewController: UIViewController, UITextFieldDelegate {
     private let mainView = MainView()
     var viewModel: ViewModel = ViewModel()
     private let disposeBag = DisposeBag()
-    
+
     override func loadView() {
         view = mainView
         configureNavigationBar()

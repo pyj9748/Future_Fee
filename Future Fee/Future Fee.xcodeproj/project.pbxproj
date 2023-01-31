@@ -14,6 +14,7 @@
 		28653487297ABE4F00278326 /* InputError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28653486297ABE4F00278326 /* InputError.swift */; };
 		2865348E2981701B00278326 /* CrawlError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2865348D2981701B00278326 /* CrawlError.swift */; };
 		288EBDE1298955AA00B063C6 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288EBDE0298955AA00B063C6 /* ViewModelType.swift */; };
+		288EBDE429895B8200B063C6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 288EBDE329895B8200B063C6 /* SnapKit */; };
 		28A68171281E6349009BF58D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A68170281E6349009BF58D /* AppDelegate.swift */; };
 		28A68173281E6349009BF58D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A68172281E6349009BF58D /* SceneDelegate.swift */; };
 		28A68175281E6349009BF58D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A68174281E6349009BF58D /* ViewController.swift */; };
@@ -69,6 +70,7 @@
 				2845A5C6282AB0A500C13348 /* Alamofire in Frameworks */,
 				2845A5C9282AB0B500C13348 /* RxAlamofire in Frameworks */,
 				28A68188281E6924009BF58D /* RxSwift in Frameworks */,
+				288EBDE429895B8200B063C6 /* SnapKit in Frameworks */,
 				28A68186281E6924009BF58D /* RxCocoa in Frameworks */,
 				2845A5D0282AB49C00C13348 /* SwiftSoup in Frameworks */,
 			);
@@ -192,6 +194,7 @@
 				2845A5C5282AB0A500C13348 /* Alamofire */,
 				2845A5C8282AB0B500C13348 /* RxAlamofire */,
 				2845A5CF282AB49C00C13348 /* SwiftSoup */,
+				288EBDE329895B8200B063C6 /* SnapKit */,
 			);
 			productName = "Future Fee";
 			productReference = 28A6816D281E6349009BF58D /* Future Fee.app */;
@@ -226,6 +229,7 @@
 				2845A5C4282AB0A500C13348 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				2845A5C7282AB0B500C13348 /* XCRemoteSwiftPackageReference "RxAlamofire" */,
 				2845A5CE282AB49C00C13348 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				288EBDE229895B8200B063C6 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 28A6816E281E6349009BF58D /* Products */;
 			projectDirPath = "";
@@ -505,6 +509,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		288EBDE229895B8200B063C6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		28A68184281E6924009BF58D /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -530,6 +542,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2845A5CE282AB49C00C13348 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		288EBDE329895B8200B063C6 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 288EBDE229895B8200B063C6 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 		28A68185281E6924009BF58D /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
