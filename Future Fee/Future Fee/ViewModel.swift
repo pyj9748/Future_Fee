@@ -128,7 +128,7 @@ final class ViewModel: ViewModelType {
     }
 
     private func calculateROE(_ open: Double, _ profit: Double) {
-        let roe: Double = (profit / open) * 100
+        let roe: Double = (profit / open) * 100 * input.leverage.value
         output.roe.accept(roe)
     }
 

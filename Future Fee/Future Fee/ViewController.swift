@@ -135,21 +135,21 @@ final class ViewController: UIViewController, UITextFieldDelegate {
                 self?.mainView.volumeView.rightTextField.resignFirstResponder()
             }.disposed(by: disposeBag)
 
-        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidBegin)
-            .subscribe(on: MainScheduler.instance)
-            .bind { [weak self] _ in
-                UIView.animate(
-                    withDuration: 0.3
-                    , animations: {
-                        self?.view.transform = CGAffineTransform(translationX: 0, y: -50)
-                    }
-                )
-            }.disposed(by: disposeBag)
-        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidEnd)
-            .subscribe(on: MainScheduler.instance)
-            .bind { [weak self] _ in
-                self?.view.transform = .identity
-            }.disposed(by: disposeBag)
+//        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidBegin)
+//            .subscribe(on: MainScheduler.instance)
+//            .bind { [weak self] _ in
+//                UIView.animate(
+//                    withDuration: 0.3
+//                    , animations: {
+//                        self?.view.transform = CGAffineTransform(translationX: 0, y: -50)
+//                    }
+//                )
+//            }.disposed(by: disposeBag)
+//        mainView.volumeView.rightTextField.rx.controlEvent(.editingDidEnd)
+//            .subscribe(on: MainScheduler.instance)
+//            .bind { [weak self] _ in
+//                self?.view.transform = .identity
+//            }.disposed(by: disposeBag)
     }
 
     private func bindViewModel() {
